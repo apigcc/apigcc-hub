@@ -18,9 +18,24 @@ export default new Router({
             component: () => import('./views/Dashboard.vue')
         },
         {
-            path: '/doc',
-            name: 'doc',
-            component: () => import('./views/Doc.vue')
+            path: '/namespaces',
+            name: 'namespaces',
+            component: () => import('./views/Namespaces.vue')
+        },
+        {
+            path: '/projects',
+            name: 'projects',
+            component: () => import('./views/Projects.vue')
+        },
+        {
+            path: '/project',
+            name: 'project',
+            component: () => import('./views/Project.vue')
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: () => import('./views/Users.vue')
         },
     ]
 })

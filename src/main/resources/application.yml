@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    context-path: api
+
+spring:
+  datasource:
+    url: jdbc:sqlite:apigcc-hub.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    generate-ddl: true
+    database-platform: com.apigcc.hub.common.SQLiteDialect

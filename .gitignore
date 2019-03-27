@@ -4,10 +4,13 @@ target
 logs
 .DS_Store
 node_modules/
+build
+out
 dist/
 npm-debug.log
 .idea
 .gradle
+*.db
 
 # local env files
 .env.local
