@@ -1,8 +1,7 @@
 package com.apigcc.hub;
 
-import ch.qos.logback.core.db.dialect.SQLiteDialect;
-import com.apigcc.hub.domain.User;
-import com.apigcc.hub.repository.UserRepository;
+import com.apigcc.hub.dto.ProjectDTO;
+import com.apigcc.hub.web.ProjectController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,24 +14,28 @@ import javax.annotation.Resource;
 public class UserRepositoryTest {
 
     @Resource
-    UserRepository userRepository;
+    ProjectController projectService;
 
     @Test
     public void testSave(){
 
-        User user = new User();
+        ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setId("ubcloud");
+        projectDTO.setTitle("优碧云");
+        projectDTO.setDescription("优碧云接口文档");
+        projectDTO.setGit("https://gitee.com/ubisor-dev/ubisor-backend");
+        projectDTO.setUsername("");
+        projectDTO.setPassword("");
+        projectDTO.setSource("ubcloud-front-web");
+//        projectDTO.setDependency("");
 
-        user.setUsername("wangzhe");
-        user.setPassword("wangzhe");
-        user.setName("王哲");
-        userRepository.save(user);
+        projectService.create(projectDTO);
+
     }
 
     @Test
-    public void testQuery(){
-
-        userRepository.findAll().forEach(System.out::println);
-
+    public void testBuild(){
+        projectService.build("ubcloud");
     }
 
 }

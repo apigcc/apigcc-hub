@@ -1,12 +1,15 @@
 server:
   port: 8080
-  servlet:
-    context-path: api
 
 spring:
   datasource:
-    url: jdbc:sqlite:apigcc-hub.db
+    url: jdbc:sqlite:sqlite.db
     driver-class-name: org.sqlite.JDBC
   jpa:
     generate-ddl: true
-    database-platform: com.apigcc.hub.common.SQLiteDialect
+    database-platform: org.hibernate.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true

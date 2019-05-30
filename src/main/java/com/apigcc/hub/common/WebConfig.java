@@ -1,36 +1,37 @@
 package com.apigcc.hub.common;
 
+import com.apigcc.hub.service.SystemPropertyService;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+/**
+ * 配置构建文件输出目录，提供构建资源文件访问能力
+ */
 @Configuration
-@EnableWebSecurity
-public class WebConfig extends WebSecurityConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
 
     @Resource
-    SpringDataUserDetailService userDetailService;
+    SystemPropertyService systemProperty;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .permitAll();
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/books/**").addResourceLocations(fileLocation());
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+    private String fileLocation(){
+        Path path = Paths.get(systemProperty.getBuild()).toAbsolutePath();
+        StringBuilder stringBuilder = new StringBuilder("file:");
+        stringBuilder.append(path.toString());
+        if(!path.endsWith(File.separator)){
+            stringBuilder.append(File.separator);
+        }
+        return stringBuilder.toString();
     }
 
 }

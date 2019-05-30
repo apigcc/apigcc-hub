@@ -1,13 +1,12 @@
 package com.apigcc.hub.common;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class Response<T> {
 
     public static final int CODE_SUCCESS = 0;
+    public static final int CODE_FAIL = 1;
     public static final String MSG_SUCCESS = "success";
 
     int code;
@@ -29,4 +28,14 @@ public class Response<T> {
         return resp;
     }
 
+    public static <T> Response<T> fail(String msg) {
+        Response<T> resp = new Response<>();
+        resp.setCode(CODE_FAIL);
+        resp.setMsg(msg);
+        return resp;
+    }
+
+    public boolean ok(){
+        return CODE_SUCCESS == code;
+    }
 }
