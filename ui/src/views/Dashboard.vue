@@ -47,7 +47,7 @@
                 <div class="menu" :style="{padding: '10px 10px 0 10px'}">
 
                     <Card v-for="b in books" :key="b.id" :title="b.title" icon="md-book" :style="{marginBottom:'20px'}" shadow>
-                        <Item :id="b.id" group="index" target="_doc" :selected="book.id+book.group" @click="itemSelected" />
+                        <!--<Item :id="b.id" group="index" target="_doc" :selected="book.id+book.group" @click="itemSelected" />-->
                         <Item v-for="group in b.groups" :key="group.name" :id="b.id" :group="group.name" target="_doc" :selected="book.id+book.group" @click="itemSelected" />
                     </Card>
                 </div>

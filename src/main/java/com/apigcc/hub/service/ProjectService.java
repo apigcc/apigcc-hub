@@ -1,7 +1,7 @@
 package com.apigcc.hub.service;
 
-import com.apigcc.core.Apigcc;
-import com.apigcc.core.Options;
+import com.apigcc.Apigcc;
+import com.apigcc.Context;
 import com.apigcc.hub.common.BeanHelper;
 import com.apigcc.hub.dto.BookDTO;
 import com.apigcc.hub.dto.GitLogDTO;
@@ -18,7 +18,6 @@ import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -147,18 +146,20 @@ public class ProjectService {
 
             Path projectFolder = Paths.get(systemProperty.getSources(), project.getId());
             log.info("build doc from:{}",projectFolder);
+
             //build api doc
-            Options options = new Options()
-                    .id("index")
-                    .project(projectFolder)
-                    .title(project.getTitle())
-                    .description(project.getDescription())
-                    .source(Paths.get(project.getSource()).resolve(Options.DEFAULT_SOURCE_STRUCTURE))
-                    .production(Paths.get(project.getId()))
-                    .ignore("")
-                    //                .dependency()
-                    .out(Paths.get(systemProperty.getBuild()).toAbsolutePath());
-            new Apigcc(options).lookup().build();
+            Context context = new Context();
+            context.setId(project.getId());
+            context.setName(project.getTitle());
+            context.setDescription(project.getDescription());
+            context.addSource(projectFolder.resolve(project.getSource()));
+            context.addDependency(projectFolder.resolve(project.getDependency()));
+            context.setBuildPath(Paths.get(systemProperty.getBuild()));
+            Apigcc apigcc = new Apigcc(context);
+            apigcc.render();
+
+            com.apigcc.schema.Project p = apigcc.parse();
+            updateBooks(id, p.getBooks().keySet());
 
             projectRepository.updateStatus(project.getId(),Status.SUCCESS,"");
         }catch (Exception e){
@@ -166,6 +167,20 @@ public class ProjectService {
             projectRepository.updateStatus(project.getId(),Status.FAIL,e.getMessage());
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private void updateBooks(String id, Set<String> books){
+        BookGroup where = new BookGroup();
+        where.setProjectId(id);
+        bookGroupRepository.delete(where);
+
+        for (String book : books) {
+            BookGroup value = new BookGroup();
+            value.setProjectId(id);
+            value.setName(book);
+            bookGroupRepository.save(value);
+        }
+
     }
 
 }
