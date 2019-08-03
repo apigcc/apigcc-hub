@@ -1,2 +1,3 @@
 rootProject.name = 'apigcc-hub'
-
+include 'service'
+include 'web'

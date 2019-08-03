@@ -9,6 +9,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +25,7 @@ import java.util.Objects;
 
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+@Ignore
 public class GitTest {
 
     String buildDir = "out";

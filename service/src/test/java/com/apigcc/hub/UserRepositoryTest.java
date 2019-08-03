@@ -2,6 +2,7 @@ package com.apigcc.hub;
 
 import com.apigcc.hub.dto.ProjectDTO;
 import com.apigcc.hub.web.ProjectController;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+@Ignore
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserRepositoryTest {

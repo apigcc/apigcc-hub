@@ -17,6 +17,7 @@ public class SystemPropertyService {
     public static final String KEY_SOURCES = "sources";
     public static final String KEY_BUILD = "build";
     public static final String KEY_HOST = "host";
+    public static final String KEY_STYLE = "style";
 
     public static final String DEFAULT_SOURCES = "sources";
     public static final String DEFAULT_BUILD = "build";
@@ -63,6 +64,10 @@ public class SystemPropertyService {
         } catch (UnknownHostException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    public String getStyle(){
+        return get(KEY_STYLE,"");
     }
 
 }

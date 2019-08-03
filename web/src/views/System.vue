@@ -13,6 +13,10 @@
                     <Input v-model="formData.builds" placeholder="Folder of Build, default: build"></Input>
                     <span>Build resources configured when app started, so restart app to make it work</span>
                 </FormItem>
+                <FormItem label="Style">
+                    <Input v-model="formData.style" placeholder="doc style"></Input>
+                    <span>consider: <a target="_blank" href="https://github.com/darshandsoni/asciidoctor-skins">https://github.com/darshandsoni/asciidoctor-skins</a></span>
+                </FormItem>
                 <FormItem>
                     <Button type="primary" @click="handleSave()">Save</Button>
                 </FormItem>
@@ -31,6 +35,7 @@
                     sources : '',
                     build: '' ,
                     host: '' ,
+                    style: '' ,
                 }
             }
         },

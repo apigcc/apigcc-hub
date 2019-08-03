@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://repo.eclipse.org/content/groups/releases/" }
+}
+
+dependencies {
+    compile project(":web")
+
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.xerial:sqlite-jdbc:3.27.2.1'
+    compile("com.github.gwenn:sqlite-dialect:0.1.0")
+    compile 'org.eclipse.jgit:org.eclipse.jgit:5.3.0.201903130848-r'
+    compile 'com.apigcc:apigcc-springmvc:1.7.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    baseName 'apigcc-hub'
+}

@@ -1,7 +1,7 @@
 package com.apigcc.hub.service;
 
-import com.apigcc.Apigcc;
-import com.apigcc.Context;
+import com.apigcc.core.Apigcc;
+import com.apigcc.core.Context;
 import com.apigcc.hub.common.BeanHelper;
 import com.apigcc.hub.dto.BookDTO;
 import com.apigcc.hub.dto.GitLogDTO;
@@ -14,6 +14,7 @@ import com.apigcc.hub.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.Resource;
@@ -37,6 +38,9 @@ public class ProjectService {
 
     @Resource
     GitService gitService;
+
+    @Resource
+    ProjectService projectService;
 
     /**
      * 获取所有项目名及文档组信息
@@ -85,6 +89,7 @@ public class ProjectService {
     /**
      * 保存项目信息
      */
+    @Transactional
     public void create(ProjectDTO dto){
         Project project = new Project();
         if(dto.getId()!=null){
@@ -111,6 +116,7 @@ public class ProjectService {
      * @param id
      * @return
      */
+    @Transactional
     public void delete(String id){
         Project project = get(id);
 
@@ -155,11 +161,13 @@ public class ProjectService {
             context.addSource(projectFolder.resolve(project.getSource()));
             context.addDependency(projectFolder.resolve(project.getDependency()));
             context.setBuildPath(Paths.get(systemProperty.getBuild()));
+            context.setCss(systemProperty.getStyle());
             Apigcc apigcc = new Apigcc(context);
-            apigcc.render();
 
-            com.apigcc.schema.Project p = apigcc.parse();
-            updateBooks(id, p.getBooks().keySet());
+            com.apigcc.core.schema.Project p = apigcc.parse();
+            projectService.updateBooks(id, p.getBooks().keySet());
+
+            apigcc.render();
 
             projectRepository.updateStatus(project.getId(),Status.SUCCESS,"");
         }catch (Exception e){
@@ -169,10 +177,9 @@ public class ProjectService {
         }
     }
 
-    private void updateBooks(String id, Set<String> books){
-        BookGroup where = new BookGroup();
-        where.setProjectId(id);
-        bookGroupRepository.delete(where);
+    @Transactional
+    public void updateBooks(String id, Set<String> books){
+        bookGroupRepository.deleteByProjectId(id);
 
         for (String book : books) {
             BookGroup value = new BookGroup();
