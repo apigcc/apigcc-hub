@@ -38,7 +38,7 @@
                 <Col v-if="book.id!==''">
                     <!--<Button :to="'/books/'+book.id+'/'+book.group+'.md'" target="_blank" icon="md-download" :style="{lineHeight: '22px',padding: '0px 10px',marginLeft: '10px'}">MD</Button>-->
                     <Button :to="'/books/'+book.id+'/'+book.group+'.adoc'" target="_blank" icon="md-download" :style="{lineHeight: '22px',padding: '0px 10px',marginLeft: '10px'}">Adoc</Button>
-                    <Button :to="'/books/'+book.id+'/'+book.group+'.json'" target="_blank" title="import to postman" icon="ios-link" :style="{lineHeight: '22px',padding: '0px 10px',marginLeft: '10px'}">Postman</Button>
+                    <Button :to="'/books/'+book.id+'/postman_v2_1.json'" target="_blank" title="import to postman" icon="ios-link" :style="{lineHeight: '22px',padding: '0px 10px',marginLeft: '10px'}">Postman</Button>
                 </Col>
             </Row>
         </div>

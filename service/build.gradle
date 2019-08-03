@@ -37,4 +37,5 @@ dependencies {
 
 bootJar {
     baseName 'apigcc-hub'
+    requiresUnpack '**/jruby-complete*.jar', '**/asciidoctorj-*.jar'
 }

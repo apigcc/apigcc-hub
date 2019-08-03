@@ -2,6 +2,7 @@ package com.apigcc.hub.service;
 
 import com.apigcc.core.Apigcc;
 import com.apigcc.core.Context;
+import com.apigcc.core.common.helper.StringHelper;
 import com.apigcc.hub.common.BeanHelper;
 import com.apigcc.hub.dto.BookDTO;
 import com.apigcc.hub.dto.GitLogDTO;
@@ -105,8 +106,16 @@ public class ProjectService {
 
         Path projectPath = Paths.get(systemProperty.getSources(), project.getId()).toAbsolutePath();
         project.setProjectDir(projectPath.toString());
-
         project.setBuildUrl(systemProperty.getHost()+"/api/projects/"+project.getId()+"/build");
+        if(Objects.isNull(project.getSource())){
+            project.setSource("");
+        }
+        if(Objects.isNull(project.getDependency())){
+            project.setDependency("");
+        }
+        if(StringHelper.isBlank(project.getBranch())){
+            project.setBranch("master");
+        }
 
         projectRepository.save(project);
     }
@@ -190,4 +199,7 @@ public class ProjectService {
 
     }
 
+    public boolean exists(String id) {
+        return projectRepository.existsById(id);
+    }
 }
