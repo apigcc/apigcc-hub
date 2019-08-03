@@ -12,3 +12,5 @@ java -jar apigcc-hub-{version}.jar
 ```
 
 浏览器访问 ``http://127.0.0.1:8080``
+
+[这里提供了一个已打好的jar](https://github.com/apigcc/apigcc-hub/releases/download/v1.7.0/apigcc-hub-1.7.0.jar)
