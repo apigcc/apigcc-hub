@@ -2,6 +2,7 @@ package com.apigcc.hub.common;
 
 import com.apigcc.hub.service.SystemPropertyService;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,7 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/books/**").addResourceLocations(fileLocation());
+        registry.addResourceHandler("/books/**")
+                .addResourceLocations(fileLocation())
+                .setCacheControl(CacheControl.noCache());
     }
 
     private String fileLocation(){
