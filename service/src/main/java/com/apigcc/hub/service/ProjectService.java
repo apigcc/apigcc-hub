@@ -167,8 +167,16 @@ public class ProjectService {
             context.setId(project.getId());
             context.setName(project.getTitle());
             context.setDescription(project.getDescription());
-            context.addSource(projectFolder.resolve(project.getSource()));
-            context.addDependency(projectFolder.resolve(project.getDependency()));
+            for (String path : project.getSource().split(",")) {
+                context.addSource(projectFolder.resolve(path));
+            }
+            for (String path : project.getDependency().split(",")) {
+                if(path.endsWith("jar")){
+                    context.addJar(projectFolder.resolve(path));
+                }else{
+                    context.addDependency(projectFolder.resolve(path));
+                }
+            }
             context.setBuildPath(Paths.get(systemProperty.getBuild()));
             context.setCss(systemProperty.getStyle());
             Apigcc apigcc = new Apigcc(context);
