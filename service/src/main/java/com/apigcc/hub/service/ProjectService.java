@@ -1,8 +1,8 @@
 package com.apigcc.hub.service;
 
-import com.apigcc.core.Apigcc;
-import com.apigcc.core.Context;
-import com.apigcc.core.common.helper.StringHelper;
+import com.github.apigcc.core.Apigcc;
+import com.github.apigcc.core.Context;
+import com.github.apigcc.core.common.helper.StringHelper;
 import com.apigcc.hub.common.BeanHelper;
 import com.apigcc.hub.dto.BookDTO;
 import com.apigcc.hub.dto.GitLogDTO;
@@ -181,7 +181,7 @@ public class ProjectService {
             context.setCss(systemProperty.getStyle());
             Apigcc apigcc = new Apigcc(context);
 
-            com.apigcc.core.schema.Project p = apigcc.parse();
+            com.github.apigcc.core.schema.Project p = apigcc.parse();
             projectService.updateBooks(id, p.getBooks().keySet());
 
             apigcc.render();
