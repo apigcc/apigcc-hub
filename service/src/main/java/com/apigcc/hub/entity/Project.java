@@ -1,5 +1,6 @@
 package com.apigcc.hub.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -46,6 +47,7 @@ public class Project {
     /**
      * 源码密码
      */
+    @JsonIgnore
     String password;
     /**
      * 状态
